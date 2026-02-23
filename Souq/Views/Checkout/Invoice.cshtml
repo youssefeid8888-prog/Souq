@@ -1,0 +1,121 @@
+﻿@model OrderVM
+
+@{
+    ViewData["Title"] = "الفاتورة";
+}
+
+<style>
+    .invoice-container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 30px;
+        border: 1px solid #eee;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        background-color: #fff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .invoice-header {
+        border-bottom: 2px solid #007bff;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .info-section {
+        margin-bottom: 30px;
+        line-height: 1.8;
+    }
+
+        .info-section p {
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .info-section strong {
+            color: #333;
+        }
+
+    .table {
+        margin-top: 20px;
+    }
+
+        .table thead {
+            background-color: #f8f9fa;
+        }
+
+    .total-price {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 20px;
+        border-right: 5px solid #007bff;
+    }
+
+    .btn-home {
+        margin-top: 20px;
+        transition: all 0.3s;
+    }
+
+        .btn-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+    /* تحسين شكل الجدول في الشاشات الصغيرة */
+    @@media (max-width: 576px) {
+        .invoice-container {
+            margin: 10px;
+            padding: 15px;
+        }
+    }
+</style>
+
+<div class="invoice-container" style="direction:rtl">
+    <div class="invoice-header">
+        <h2 class="text-primary">🧾 فاتورة الشراء</h2>
+        <small class="text-muted">التاريخ: @DateTime.Now.ToShortDateString()</small>
+    </div>
+
+    <div class="info-section">
+        <p><strong>الاسم:</strong> @Model.FullName</p>
+        <p><strong>الإيميل:</strong> @Model.Email</p>
+        <p><strong>العنوان:</strong> @Model.Address</p>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>المنتج</th>
+                    <th class="text-center">الكمية</th>
+                    <th class="text-center">السعر</th>
+                    <th class="text-center">المجموع</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@item.Product.Name</td>
+                        <td class="text-center">@item.Qty</td>
+                        <td class="text-center">@item.Product.Price.ToString("C")</td>
+                        <td class="text-center">@((item.Qty * item.Product?.Price??0).ToString("C"))</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="total-price d-flex justify-content-between align-items-center">
+        <h4 class="m-0">إجمالي المبلغ:</h4>
+        <h3 class="text-primary m-0">@Model.TotalAmount.ToString("N2") جنيه</h3>
+    </div>
+
+    <a href="/" class="btn btn-primary btn-home w-100 btn-lg">
+        <i class="bi bi-house-door"></i> حفظ
+    </a>
+</div>

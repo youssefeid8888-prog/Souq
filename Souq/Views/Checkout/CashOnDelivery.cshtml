@@ -1,0 +1,128 @@
+﻿@model OrderVM
+
+@{
+    ViewData["Title"] = "الدفع عند الاستلام";
+}
+
+<style>
+    body {
+        background-color: #f4f7f6;
+    }
+
+    .checkout-wrapper {
+        max-width: 600px;
+        margin: 50px auto;
+    }
+
+    .checkout-card {
+        background: #fff;
+        border: none;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+    }
+
+    .header-icon {
+        font-size: 3rem;
+        color: #28a745;
+        margin-bottom: 20px;
+    }
+
+    .total-badge {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        padding: 15px;
+        border-radius: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        border: 1px dashed #28a745;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #444;
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        transition: all 0.3s;
+    }
+
+        .form-control:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.1);
+        }
+
+    .btn-confirm {
+        background: linear-gradient(45deg, #28a745, #218838);
+        border: none;
+        border-radius: 12px;
+        padding: 15px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: white;
+        width: 100%;
+        margin-top: 20px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+            color: white;
+        }
+
+    textarea.form-control {
+        resize: none;
+    }
+</style>
+
+<div class="container" style="direction:rtl">
+    <div class="checkout-wrapper">
+        <div class="checkout-card">
+
+            <div class="text-center">
+                <div class="header-icon">💰</div>
+                <h2 class="fw-bold mb-4">تأكيد الدفع عند الاستلام</h2>
+            </div>
+
+            <div class="total-badge">
+                <span class="h5 m-0">المبلغ المطلوب سداده:</span>
+                <span class="h4 m-0 fw-bold">@Model.TotalAmount.ToString("N2") LE</span>
+            </div>
+
+            <form method="post">
+                <div class="mb-4">
+                    <label asp-for="FullName" class="form-label">الاسم الكامل</label>
+                    <input asp-for="FullName" class="form-control" placeholder="أدخل اسمك بالكامل" required />
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Email" class="form-label">البريد الإلكتروني</label>
+                    <input asp-for="Email" class="form-control" placeholder="example@domain.com" required />
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Address" class="form-label">عنوان الشحن بالتفصيل</label>
+                    <textarea asp-for="Address" class="form-control" rows="3" placeholder="المحافظة، المدينة، الشارع، رقم المبنى..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-confirm">
+                    تأكيد طلب الشراء ✅
+                </button>
+            </form>
+
+            <div class="text-center mt-4">
+                <a href="/Cart" class="text-muted text-decoration-none small">
+                    <i class="bi bi-arrow-right"></i> العودة لتعديل السلة
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

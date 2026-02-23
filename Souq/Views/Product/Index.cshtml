@@ -1,0 +1,39 @@
+﻿@model ProductVm
+
+
+
+
+<form asp-action="Create" asp-controller="Product" method="post" class="myform" data-aos="fade-up" data-aos-delay="200">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row gy-4">
+
+        <div class="col-md-6">
+            <input type="text" name="CatName" id="CatName" class="form-control" placeholder="Categorie Name" >
+            <span asp-validation-for="CatName" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6 ">
+            <input type="text   " class="form-control" name="ProductName" id="ProductName" placeholder="Product Name" >
+            <span asp-validation-for="ProductName" class="text-danger"></span>
+        </div>
+
+        <div class="col-12">
+            <input type="text" class="form-control" name="ProductPrice" id="ProductPrice" placeholder="Price" >
+        </div>
+
+        <div class="col-12">
+            <input type="text" class="form-control" name="ProductQty" id="ProductQty" placeholder="Product Quantity" >
+        </div>
+
+
+
+        <div class="col-12 text-center">
+
+            <input type="submit" class="btn btn-primary" value="Send"  />
+        </div>
+
+    </div>
+
+    @Html.DropDownList("Id",(SelectList) ViewBag.catlist , "Choose Part")
+</form>

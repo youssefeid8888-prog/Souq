@@ -1,0 +1,223 @@
+﻿@{
+    Layout = "~/Views/Shared/_FooterLayout.cshtml";
+}
+
+@model List<Souq.Models.Cart>
+
+@{
+    decimal grandTotal = 0m;
+}
+
+<style>
+    body {
+        background-color: #f8f9fa; /* لون خلفية هادئ */
+    }
+
+    .cart-card {
+        border: none;
+        border-radius: 15px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .cart-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+
+    .product-img {
+        object-fit: contain;
+        background: #fff;
+        padding: 5px;
+        border-radius: 10px;
+    }
+
+    .quantity-toggle {
+        border-radius: 20px !important;
+        font-weight: bold;
+    }
+
+    .summary-card {
+        border: none;
+        border-radius: 20px;
+        background: #ffffff;
+        border-top: 5px solid #007bff;
+    }
+
+    .btn-checkout {
+        border-radius: 10px;
+        padding: 12px;
+        font-weight: bold;
+        font-size: 1.1rem;
+        transition: all 0.3s;
+    }
+
+        .btn-checkout:hover {
+            letter-spacing: 1px;
+            background-color: #0056b3;
+        }
+
+    /* تنسيق المودال */
+    .modal-content {
+        border-radius: 20px;
+        border: none;
+    }
+
+    .modal-header {
+        border-bottom: none;
+        padding-top: 25px;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 12px;
+    }
+
+    .input-group-text {
+        border: none;
+        font-weight: bold;
+        color: #007bff;
+    }
+</style>
+
+<div class="container my-5" style="direction:rtl">
+    <h2 class="mb-4 fw-bold text-dark">🛒 سلة التسوق</h2>
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="row">
+            <div class="col-lg-8">
+                @foreach (var item in Model)
+                {
+                    decimal price = item.Product?.Price ?? 0;
+                    int qty = item.Qty ?? 0;
+                    grandTotal += price * qty;
+
+                    <div class="card cart-card shadow-sm mb-4 p-3">
+                        <div class="row align-items-center">
+                            <div class="col-md-3 text-center">
+                                <img src="~/images/@item.Product.Photo"
+                                     class="img-fluid product-img"
+                                     style="height:140px; width: 100%;"
+                                     alt="@item.Product.Name" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <h5 class="fw-bold">@item.Product.Name</h5>
+                                <p class="text-primary fw-bold mb-2">
+                                    السعر القطعة: @price.ToString("N2") LE
+                                </p>
+                                <div class="d-flex align-items-center mt-3">
+                                    <span class="me-2">الكمية:</span>
+                                    <div class="input-group input-group-sm" style="width: 120px;">
+                                        <a asp-action="DecreaseQuantity" asp-route-id="@item.Id"
+                                           class="btn btn-outline-primary quantity-toggle"> - </a>
+                                        <span class="input-group-text bg-white border-0">@item.Qty</span>
+                                        <a asp-action="IncreaseQuantity" asp-route-id="@item.Id"
+                                           class="btn btn-outline-primary quantity-toggle"> + </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 text-end">
+                                <h6 class="fw-bold text-dark mb-3">
+                                    المجموع: @((price * qty).ToString("N2")) LE
+                                </h6>
+                                <a asp-action="Remove" asp-route-id="@item.Id"
+                                   class="btn btn-outline-danger btn-sm border-0">
+                                    <i class="bi bi-trash"></i> حذف المنتج
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card summary-card shadow p-4 sticky-top" style="top:100px;">
+                    <h5 class="mb-4 fw-bold border-bottom pb-2">ملخص الطلب</h5>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">عدد الأصناف</span>
+                        <strong>@Model.Count</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-4">
+                        <span class="h5">الإجمالي الكلي</span>
+                        <strong class="h5 text-primary">@grandTotal.ToString("N2") LE</strong>
+                    </div>
+
+                    <button class="btn btn-primary btn-checkout w-100 mb-3" id="checkoutBtn">
+                        إتمام عملية الشراء
+                    </button>
+
+                    <a href="/" class="btn btn-outline-secondary w-100 py-2" style="border-radius:10px;">
+                        <i class="bi bi-plus-circle"></i> إضافة المزيد من المنتجات
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center mt-5 py-5 bg-white shadow-sm rounded-3">
+            <div class="display-1 text-muted mb-4">🛒</div>
+            <h4 class="fw-bold">عربة التسوق فارغة تماماً</h4>
+            <p class="text-muted">يبدو أنك لم تختر أي منتج بعد.</p>
+            <a href="/" class="btn btn-primary px-5 py-2 mt-3 rounded-pill">ابدأ التسوق الآن</a>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="checkoutModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg p-3">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">🚀 خطوة واحدة وتصلك المنتجات</h5>
+                <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="stepEmail">
+                    <p class="text-muted small">يرجى إدخال بريدك الإلكتروني لمتابعة الطلب.</p>
+                    <div class="form-floating mb-3">
+                        <input type="email" id="email" class="form-control" placeholder="name@example.com">
+                        <label for="email">البريد الإلكتروني</label>
+                    </div>
+                    <button class="btn btn-primary w-100 py-3 fw-bold" id="goToPayment" style="border-radius:12px;">
+                        متابعة اختيار وسيلة الدفع
+                    </button>
+                </div>
+
+                <div id="stepPayment" style="display:none">
+                    <h6 class="fw-bold mb-4 text-center">اختر طريقة الدفع المفضلة</h6>
+                    <a asp-controller="Checkout" asp-action="CashOnDelivery"
+                       class="btn btn-outline-success w-100 mb-3 py-3 text-start d-flex justify-content-between align-items-center" style="border-radius:12px;">
+                        <span>💰 الدفع عند الاستلام (كاش)</span>
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <a asp-controller="Checkout" asp-action="CardPayment"
+                       class="btn btn-outline-dark w-100 mb-3 py-3 text-start d-flex justify-content-between align-items-center" style="border-radius:12px;">
+                        <span>💳 بطاقة بنكية (فيزا / ماستر كارد)</span>
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("checkoutBtn").onclick = function () {
+        new bootstrap.Modal(document.getElementById("checkoutModal")).show();
+    };
+
+    document.getElementById("goToPayment").onclick = function () {
+        const email = document.getElementById("email").value;
+        if (email.trim() === "" || !email.includes("@@")) {
+            alert("يرجى كتابة بريد إلكتروني صحيح");
+            return;
+        }
+        document.getElementById("stepEmail").classList.add("animate__animated", "animate__fadeOut");
+        setTimeout(() => {
+            document.getElementById("stepEmail").style.display = "none";
+            document.getElementById("stepPayment").style.display = "block";
+        }, 300);
+    };
+</script>

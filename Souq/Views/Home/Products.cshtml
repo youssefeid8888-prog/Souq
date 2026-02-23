@@ -1,0 +1,59 @@
+﻿@model List<Souq.Models.Product>
+    
+
+
+
+<section id="portfolio" class="portfolio section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2> المنتجات الخاصة بقسم  </h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+    </div><!-- End Section Title -->
+
+    <div class="container isotope-layout">
+
+        <div class="row isotope-container g-4">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item isotope-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="product-card">
+                        @* <span class="brand-logo">a</span> *@
+
+                        <a href="@item.Photo"
+                           data-gallery="portfolio-gallery"
+                           class="glightbox product-image">
+                            <img src="/@item.Photo" alt="@item.Name">
+                        </a>
+
+                        <div class="product-info">
+                            <h4>
+                                <a href="/Home/currentProduct/@item.Id">
+                                    @item.Name
+                                </a>
+                            </h4>
+
+                            <span class="price">$@item.Price</span>
+
+                            <a asp-controller="Cart"
+                               asp-action="AddToCart"
+                               asp-route-productId="@item.Id"
+                               class="btn add-cart-btn">
+                                <i class="bi bi-plus"></i> Add to Cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+            <!-- End Service Item -->
+
+
+        </div>
+
+    </div>
+
+</section>
+ 

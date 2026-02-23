@@ -1,0 +1,264 @@
+﻿
+
+
+.profelimage{
+    border-radius:10%;
+    height:150%;
+    border : 5px solid white;
+}
+
+
+
+ تنسيق الحاوية الرئيسية للبطاقة 
+.custom-product-card {
+    background: #fff;
+    padding: 0 !important;  إزالة البادينج الافتراضي 
+    display: flex;
+    flex-direction: column;  ترتيب العناصر عمودياً 
+    height: 100%;
+    position: relative;
+    border: 1px solid #f0f0f0;
+}
+
+ ضبط حجم وعرض الصورة 
+.product-img-wrapper {
+    width: 100%;
+    height: 300px;  يمكنك تعديل الارتفاع حسب الرغبة 
+    overflow: hidden;
+}
+
+.myProductImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  هذا يمنع تمطط الصورة ويجعلها تملأ المساحة 
+    border-radius:20%;
+    border:5px solid white;
+    margin-top:15px;
+}
+
+ تنسيق النصوص بالأسفل 
+.product-info {
+    padding: 15px;
+    text-align: right;  محاذاة لليمين كما في الصورة 
+    direction: rtl;
+}
+
+    .product-info .title {
+        font-size: 16px;
+        margin-bottom: 10px;
+        line-height: 1.5;
+    }
+
+        .product-info .title a {
+            color: #333;
+            text-decoration: none;
+        }
+
+    .product-info .description {
+        color: #888;
+        font-size: 14px;
+    }
+
+ أيقونة البراند الصغيرة 
+.brand-logo {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    z-index: 2;
+}
+
+
+.myform{
+    background-color:white;
+    padding:30px;
+    box-shadow: 0 0 30px rgb(214 215 216 / 60%);
+
+}
+.emptyCart{
+    justify-content:center;
+    text-align:center;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+}
+
+ تحسين شكل الفوتر 
+.footer {
+    padding: 60px 0 30px;
+}
+
+.products-slider-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.myProductsSwiper {
+    width: 100%;
+}
+
+.custom-prev,
+.custom-next {
+    width: 45px;
+    height: 45px;
+    background: #6f42c1;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    transition: 0.3s;
+}
+
+.slider-img {
+    width: 100%;
+    height: 220px;  تتحكم في طول الصورة 
+    object-fit: cover;  يظبط القص 
+    border-radius: 10px 10px 0 0;
+}
+
+.portfolio-content {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.portfolio-info p {
+    color: #000 !important;
+    font-weight: 600;
+}
+
+.portfolio-info h4 a {
+    color: #333 !important;
+}
+.portfolio-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.portfolio-info {
+    margin-bottom: 10px;
+}
+
+.portfolio-content .btn {
+    margin-top: auto;
+}
+
+
+
+/* ===== PRODUCT GRID ===== */
+.portfolio .portfolio-item {
+    display: flex;
+}
+
+/* الكارت */
+.product-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 15px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: 0.3s ease;
+}
+
+    .product-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+/* صورة المنتج */
+.product-image img {
+    width: 100%;
+    height: 230px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+/* معلومات المنتج */
+.product-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    text-align: center;
+}
+
+    /* اسم المنتج */
+    .product-info h4 {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+        .product-info h4 a {
+            color: #333;
+            text-decoration: none;
+        }
+
+    /* السعر */
+    .product-info .price {
+        font-size: 18px;
+        font-weight: bold;
+        color: #ff7a00;
+        margin-bottom: auto;
+    }
+
+/* زرار Add to Cart */
+.add-cart-btn {
+    margin-top: 15px;
+    width: 100%;
+    background: #ff7a00;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    color: #fff;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+    .add-cart-btn:hover {
+        background: #e96c00;
+    }
+
+/* ===== RESPONSIVE ===== */
+
+/* Desktop = 4 منتجات */
+@media (min-width: 1200px) {
+    .portfolio .col-lg-3 {
+        width: 25%;
+    }
+}
+
+/* Tablet = 3 منتجات */
+@media (max-width: 1199px) and (min-width: 768px) {
+    .portfolio .col-md-4 {
+        width: 33.3333%;
+    }
+}
+
+/* Mobile = 2 منتجات */
+@media (max-width: 767px) {
+    .portfolio .col-sm-6 {
+        width: 50%;
+    }
+}

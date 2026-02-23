@@ -1,0 +1,108 @@
+﻿@model IEnumerable<Souq.Models.Order>
+
+<style>
+    .orders-container {
+        background: #fff;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        margin-top: 40px;
+    }
+
+    .status-badge {
+        background-color: #e3f2fd;
+        color: #0d47a1;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .table thead {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .order-row:hover {
+        background-color: #fcfcfc;
+    }
+
+    .price-text {
+        color: #28a745;
+        font-weight: bold;
+    }
+
+
+    /* تأثير احترافي عند الوقوف على الصف */
+    .order-row {
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+    }
+
+        .order-row:hover {
+            background-color: #f1f8ff !important;
+            transform: scale(1.01);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+    /* تنسيق رقم الطلب */
+    .order-id-pill {
+        background: #6c757d;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 5px;
+        font-family: monospace;
+    }
+
+</style>
+
+<div class="container mb-5" style="direction:rtl">
+    <div class="orders-container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold m-0">📦 معاملاتي (طلباتي)</h2>
+            <a href="/" class="btn btn-outline-primary btn-sm">العودة للتسوق</a>
+        </div>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>رقم الطلب</th>
+                            <th>التاريخ</th>
+                            <th>الاسم</th>
+                            <th>طريقة الدفع</th>
+                            <th>الإجمالي</th>
+                            <th class="text-center">الإجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            <tr class="order-row">
+                                <td><span class="fw-bold">#@order.Id</span></td>
+                                <td>@order.OrderDate?.ToString("yyyy/MM/dd")</td>
+                                <td>@order.FullName</td>
+                                <td><span class="status-badge">@order.PaymentMethod</span></td>
+                                <td><span class="price-text">@order.TotalAmount LE</span></td>
+                                <td class="text-center">
+                                    <a asp-action="Invoice" asp-route-id="@order.Id" class="btn btn-sm btn-light border">
+                                        👁️ عرض الفاتورة
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <img src="https://cdn-icons-png.flaticon.com/512/4076/4076432.png" width="100" class="mb-3" style="opacity: 0.5">
+                <h4 class="text-muted">لا يوجد لديك طلبات سابقة حتى الآن.</h4>
+            </div>
+        }
+    </div>
+</div>

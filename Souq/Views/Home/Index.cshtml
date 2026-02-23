@@ -1,0 +1,410 @@
+﻿@model Souq.Models.indexVM
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+<style>
+    :root {
+        --primary-color: #2563eb;
+        --secondary-color: #64748b;
+        --accent-color: #fbbf24;
+        --bg-light: #f8fafc;
+        --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: var(--bg-light);
+        color: #1e293b;
+    }
+
+    /* تحسين السلايدر والبطاقات */
+    .section-title {
+        font-weight: 700;
+        position: relative;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+    }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+    .product-card {
+        background: #ffffff;
+        border-radius: 20px;
+        border: 1px solid #f1f5f9;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+    }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--card-shadow);
+            border-color: var(--primary-color);
+        }
+
+    .image-wrapper {
+        background: #f1f5f9;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .product-img {
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+        transition: transform 0.5s ease;
+    }
+
+    .product-card:hover .product-img {
+        transform: scale(1.1);
+    }
+
+    .btn-wishlist {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: white;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        color: var(--secondary-color);
+        transition: 0.3s;
+    }
+
+        .btn-wishlist:hover {
+            color: #ef4444;
+        }
+
+    .price-tag {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+
+    .add-to-cart-btn {
+        border-radius: 12px;
+        font-weight: 600;
+        padding: 10px 20px;
+        transition: 0.3s;
+    }
+
+    /* تنسيق الفئات الدائرية */
+    .cat-box {
+        text-align: center;
+        transition: 0.3s;
+    }
+
+    .cat-circle {
+        width: 90px;
+        height: 90px;
+        background: white;
+        border-radius: 50%;
+        margin: 0 auto 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        border: 2px solid transparent;
+        transition: 0.3s;
+    }
+
+    .cat-box:hover .cat-circle {
+        border-color: var(--primary-color);
+        transform: scale(1.1);
+    }
+
+    /* Contact Section */
+    .contact-card {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: var(--card-shadow);
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 12px;
+        border: 1px solid #e2e8f0;
+    }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            border-color: var(--primary-color);
+        }
+</style>
+
+<body>
+
+    <section class="container mt-5 pt-4">
+        <h3 class="section-title">الأكثر تميزاً</h3>
+        <div class="swiper myProductsSwiper pb-5">
+            <div class="swiper-wrapper">
+                @foreach (var item in Model.SliderProducts)
+                {
+                    <div class="swiper-slide px-2">
+                        <div class="product-card">
+                            <div class="image-wrapper text-center">
+                                <a href="/Home/currentProduct/@item.Id" class="btn-wishlist"><i class="bi bi-heart"></i></a>
+                                <img src="@item.Photo" class="product-img" alt="@item.Name">
+                            </div>
+                            <div class="card-body p-4 text-center">
+                                <a href="/Home/currentProduct/@item.Id">
+                                    <h6 class="fw-bold text-dark mb-2 text-truncate">@item.Name</h6>
+                                    <p class="price-tag mb-3">$@item.Price</p>
+
+                                </a>
+                               
+                                <div class="d-grid gap-2">
+                                    <a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.Id" class="btn btn-primary add-to-cart-btn">
+                                        <i class="bi bi-cart-plus me-2"></i> إضافة للسلة
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="swiper-button-next" style="color: var(--primary-color)"></div>
+            <div class="swiper-button-prev" style="color: var(--primary-color)"></div>
+        </div>
+    </section>
+
+    <section class="py-5" style="background: #edf2f7;">
+        <div class="container">
+            <h4 class="fw-bold mb-5 text-center">تسوق</h4>
+            <div class="swiper category-swiper">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.Products.Take(10)) // تجريبي
+                    {
+                        <div class="swiper-slide">
+                            <a href="/Home/currentProduct/@item.Id" class="text-decoration-none cat-box">
+                                <div class="cat-circle">
+                                    <img src="@Url.Content("~/" + item.Photo)" class="img-fluid p-3" style="border-radius:50%">
+                                </div>
+                                <span class="fw-semibold text-dark">@item.Name</span>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="container mt-5 py-5">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <div>
+                <h3 class="section-title mb-0">كل المنتجات</h3>
+                <p class="text-muted mt-2">اكتشف أحدث التشكيلات المضافة حديثاً</p>
+            </div>
+            <div class="portfolio-filters">
+                <button class="btn btn-outline-primary active rounded-pill px-4" data-filter="*">الكل</button>
+                @foreach (var cat in Model.Catigoryies)
+                {
+                    <button class="btn btn-outline-secondary rounded-pill px-4 ms-2" data-filter=".cat-@cat.Id">@cat.Name</button>
+                }
+            </div>
+        </div>
+
+        <div class="row g-4 isotope-container">
+            @foreach (var item in Model.Products)
+            {
+                <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item cat-@item.Cat.Id">
+                    <div class="product-card">
+                        <div class="image-wrapper">
+                            <img src="@item.Photo" class="product-img" alt="@item.Name">
+                        </div>
+                        <a href="/Home/currentProduct/@item.Id">
+                            <span class="badge bg-light text-primary mb-2">@item.Cat.Name</span>
+                            <h5 class="fw-bold text-dark text-truncate mb-3">@item.Name</h5>
+
+                        </a>
+                        <div class="card-body p-4">
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price-tag">$@item.Price</span>
+                                <a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.Id" class="btn btn-primary rounded-circle">
+                                    <i class="bi bi-plus-lg"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <section id="testimonials" class="testimonials section light-background">
+
+        <!-- Section Title -->
+        <div class="container section-title aos-init aos-animate" data-aos="fade-up">
+            <h2>Reviews</h2>
+            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        </div><!-- End Section Title -->
+
+        <div class="container aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="swiper init-swiper swiper-initialized swiper-horizontal swiper-backface-hidden" data-speed="600" data-delay="5000" data-breakpoints="{ &quot;320&quot;: { &quot;slidesPerView&quot;: 1, &quot;spaceBetween&quot;: 40 }, &quot;1200&quot;: { &quot;slidesPerView&quot;: 3, &quot;spaceBetween&quot;: 40 } }">
+                <script type="application/json" class="swiper-config">
+                    {
+                      "loop": true,
+                      "speed": 600,
+                      "autoplay": {
+                        "delay": 5000
+                      },
+                      "slidesPerView": "auto",
+                      "pagination": {
+                        "el": ".swiper-pagination",
+                        "type": "bullets",
+                        "clickable": true
+                      },
+                      "breakpoints": {
+                        "320": {
+                          "slidesPerView": 1,
+                          "spaceBetween": 40
+                        },
+                        "1200": {
+                          "slidesPerView": 3,
+                          "spaceBetween": 20
+                        }
+                      }
+                    }
+                </script>
+                <div class="swiper-wrapper" id="swiper-wrapper-83de2c2ab0292f21" aria-live="off" style="transition-duration: 0ms; transform: translate3d(-2944px, 0px, 0px); transition-delay: 0ms;">
+
+                    @foreach (var item in Model.Reviews)
+                    {
+                        <div class="swiper-slide swiper-slide-next" role="group" aria-label="1 / 5" style="width: 696px; margin-right: 40px;" data-swiper-slide-index="0">
+                            <div class="testimonial-item" "=" ">
+                                <p style="min-height:250px">
+                                    <i class=" bi bi-quote quote-icon-left"></i>
+                                    <span>@item.Description</span>
+                                    <i class="bi bi-quote quote-icon-right"></i>
+                                </p>
+                                <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+                                <h3>@item.Name</h3>
+                                <h4>@item.Subject</h4>
+                            </div>
+                        </div>
+
+                    }
+
+                </div><div class="swiper-slide" role="group" aria-label="2 / 5" style="width: 696px; margin-right: 40px;" data-swiper-slide-index="1">
+                </div><div class="swiper-slide" role="group" aria-label="3 / 5" style="width: 696px; margin-right: 40px;" data-swiper-slide-index="2">
+                </div><div class="swiper-slide swiper-slide-prev" role="group" aria-label="4 / 5" style="width: 696px; margin-right: 40px;" data-swiper-slide-index="3">
+                </div><div class="swiper-slide swiper-slide-active" role="group" aria-label="5 / 5" style="width: 696px; margin-right: 40px;" data-swiper-slide-index="4">
+                </div>
+            </div>
+            <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 1"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 2"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 3"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 4"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 5" aria-current="true"></span></div>
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+        </div>
+
+        </div>
+
+    </section>
+
+
+
+
+
+    <section class="py-5" style="background: white;">
+        <div class="container">
+            <div class="contact-card">
+                <div class="row g-5">
+                    <div class="col-lg-5">
+                        <h2 class="fw-bold mb-4">تواصل معنا</h2>
+                        <p class="text-muted mb-5">نحن هنا للإجابة على استفساراتكم على مدار الساعة.</p>
+
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="btn-primary p-3 rounded-circle me-3"><i class="bi bi-geo-alt"></i></div>
+                            <div><h6 class="mb-0">العنوان</h6><p class="mb-0 text-muted">مصر، الجيزة</p></div>
+                        </div>
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="btn-primary p-3 rounded-circle me-3"><i class="bi bi-envelope"></i></div>
+                            <div><h6 class="mb-0">البريد الإلكتروني</h6><p class="mb-0 text-muted">youssefeid8888@gmail.com</p></div>
+                        </div>
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="btn-primary p-3 rounded-circle me-3"><i class="bi bi-chat-left-text-fill"></i></div>
+                            <div><h6 class="mb-0">الرقم</h6><p class="mb-0 text-muted">01206895603</p></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <form asp-action="sendreview" asp-controller="Home" method="post">
+                            <div class="row g-3">
+                                <div class="col-md-6"><input type="text" name="Name" class="form-control" placeholder="الاسم" required></div>
+                                <div class="col-md-6"><input type="email" name="Email" class="form-control" placeholder="البريد" required></div>
+                                <div class="col-12"><input type="text" name="Subject" class="form-control" placeholder="الموضوع"></div>
+                                <div class="col-12"><textarea name="Description" class="form-control" rows="4" placeholder="رسالتك"></textarea></div>
+                                <div class="col-12"><button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold">إرسال الرسالة</button></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+@section Scripts {
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <script>
+        // 1. Featured Swiper
+        new Swiper(".myProductsSwiper", {
+            slidesPerView: 4,
+            spaceBetween: 20,
+            loop: true,
+            autoplay: { delay: 4000 },
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+            breakpoints: {
+                0: { slidesPerView: 1.2 },
+                768: { slidesPerView: 2.5 },
+                1024: { slidesPerView: 4 }
+            }
+        });
+
+        // 2. Category Swiper
+        new Swiper(".category-swiper", {
+            slidesPerView: 7,
+            spaceBetween: 20,
+            breakpoints: {
+                0: { slidesPerView: 3 },
+                768: { slidesPerView: 5 },
+                1200: { slidesPerView: 7 }
+            }
+        });
+
+        // 3. Isotope Filtering
+        var iso = new Isotope('.isotope-container', {
+            itemSelector: '.portfolio-item',
+            layoutMode: 'fitRows'
+        });
+
+        document.querySelectorAll('.portfolio-filters button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelector('.portfolio-filters .active').classList.remove('active');
+                this.classList.add('active');
+                iso.arrange({ filter: this.getAttribute('data-filter') });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,452 @@
+﻿@* @{
+    Layout = "~/Views/Shared/_FooterLayout.cshtml";
+}
+ *@
+
+@* 
+@model Product
+
+<section id="portfolio-details" class="portfolio-details section">
+
+    <div  class="container" data-aos="fade-up">
+
+
+        @* ===== SLIDER ===== *@
+        @* @if (Model.ProductImages != null && Model.ProductImages.Any())
+        {
+            <div style="display:flex" class="portfolio-details-slider swiper init-swiper">
+
+                <script type="application/json" class="swiper-config">
+                    {
+                      "loop": false,
+                      "speed": 600,
+                      "autoplay": false,
+                      "slidesPerView": 1,
+                      "navigation": {
+                        "nextEl": ".swiper-button-next",
+                        "prevEl": ".swiper-button-prev"
+                      },
+                      "pagination": {
+                        "el": ".swiper-pagination",
+                        "clickable": true
+                      }
+                    }
+                </script>
+
+                <div class="swiper-wrapper">
+
+                    @foreach (var item in Model.ProductImages)
+                    {
+                        <div class="swiper-slide text-center">
+                            <img src="@Url.Content("~/" + item.Image)"
+                                                  class="img-fluid"
+                                                  style="max-height:450px; object-fit:contain;">
+                        </div>
+                    }
+
+                </div>
+
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-pagination"></div>
+
+            </div>
+        }
+        else
+        {
+            <div class="text-center">
+                <img src="@Url.Content("~/" + Model.Photo)"
+                                class="img-fluid"
+                                style="max-height:450px; object-fit:contain;">
+            </div>
+        }
+
+        @* ===== DETAILS ===== *@
+        @* <div class="row justify-content-between gy-4 mt-4">
+
+            <div class="col-lg-8">
+                <div class="portfolio-description">
+                    <h2 style="direction:rtl">@Model.Name</h2>
+                    <p style="direction:rtl">@Model.Description</p>
+                </div>
+            </div> *@
+
+            @* <div class="col-lg-3">
+                <div class="portfolio-info">
+                    <h3>Product information</h3>
+                    <ul>  *@
+                       
+@*                         <li><strong>Category:</strong> @Model.Cat?.Name</li>
+                        <li><strong>Supplier:</strong> @Model.SupplierName</li>
+                        <li><strong>Price:</strong> $@Model.Price</li>
+                        <li><strong>Date:</strong> @Model.EntryData</li>
+                    </ul>
+
+                    <a asp-controller="Cart"
+                                   asp-action="AddToCart"
+                                   asp-route-productId="@Model.Id"
+                                   class="btn btn-primary w-100">
+                        <i class="bi bi-plus"></i> Add to Cart
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        </div>
+
+</section> *@
+
+
+
+@* ===== RELATED PRODUCTS SECTION ===== *@
+
+
+@* 
+<section id="related-products" class="portfolio-details section mt-5">
+    <div class="container" data-aos="fade-up">
+        <div class="section-title">
+            <h2 style="direction:rtl">منتجات مشابهة</h2>
+        </div>
+
+        @* ضفنا هنا "position-relative" عشان الأسهم تثبت في مكانها *@
+        @* <div class="swiper init-swiper related-swiper position-relative">
+            <script type="application/json" class="swiper-config">
+                {
+                  "loop": false,
+                  "rewind": true,
+                  "speed": 600,
+                  "autoplay": false,
+                  "slidesPerView": "auto",
+                  "watchOverflow": true,
+                  "simulateTouch": true,
+                  "grabCursor": true,
+                  "navigation": {
+                    "nextEl": ".swiper-button-next",
+                    "prevEl": ".swiper-button-prev"
+                  },
+                  "pagination": {
+                    "el": ".swiper-pagination",
+                    "type": "bullets",
+                    "clickable": true
+                  },
+                  "breakpoints": {
+                    "320": { "slidesPerView": 2, "spaceBetween": 20 },
+                    "768": { "slidesPerView": 3, "spaceBetween": 30 },
+                    "1200": { "slidesPerView": 4, "spaceBetween": 40 }
+                  }
+                }
+            </script>
+            <div class="swiper-wrapper">
+                @if (ViewBag.RelatedProducts != null) *@
+
+
+              @*   {
+                    foreach (var item in (List<Product>)ViewBag.RelatedProducts)
+                    {
+                        <div class="swiper-slide">
+                            <div class="card h-100 shadow-sm border-0">
+                                <a asp-action="Details" asp-route-id="@item.Id">
+ *@
+
+@*                                     <img src="@Url.Content("~/" + item.Photo)" class="card-img-top"
+                                                              style="height: 200px; object-fit: contain; padding: 10px;">
+                                </a>
+                                <div class="card-body text-center">
+                                    <h6 class="card-title text-truncate">@item.Name</h6>
+                                    <p class="text-primary fw-bold">LE @item.Price</p>
+                                    <a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.Id"
+                                                           class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-cart-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+
+            @* --- أزرار التنقل (الأسهم) --- *@
+
+@* 
+            <div class="swiper-button-prev custom-nav"></div>
+            <div class="swiper-button-next custom-nav"></div>
+
+            <div class="swiper-pagination mt-4"></div>
+        </div>
+    </div>
+</section> *@ 
+
+
+
+@* 
+
+<style>
+        .related-swiper {
+                padding: 40px 20px; /* زودنا الـ Padding عشان الأسهم متجيش فوق الصور */
+
+    }
+
+
+    /* تنسيق الأسهم */
+        .custom-nav {
+                color: #007bff !important; /* لون السهم */
+                background: rgba(255, 255, 255, 0.8); /* خلفية بيضاء خفيفة */
+                width: 40px !important;
+                height: 40px !important;
+                border-radius: 50%; /* خلي السهم دائري */
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                top: 45% !important; /* مكان السهم بالنسبة لارتفاع السلايدر */
+
+    }
+
+
+        /* تصغير حجم أيقونة السهم */
+            .custom-nav::after {
+                    font-size: 18px !important;
+                    font-weight: bold;
+
+        }
+
+        .card {
+                transition: transform 0.3s;
+
+    }
+
+            .card:hover {
+                    transform: translateY(-5px);
+
+        }
+
+
+    /* إخفاء الأسهم في الموبايل لو عايز تخليها تعتمد على اللمس فقط */
+        @@media (max-width: 768px) {
+                .custom-nav {
+                        display: none !important;
+
+        }
+
+
+    }
+</style> *@
+
+
+
+
+@model Product
+
+<section id="portfolio-details" class="portfolio-details section">
+    <div class="container" data-aos="fade-up">
+
+        <div class="row">
+            @* --- الجانب الأيسر: عرض الصور (أسلوب أمازون) --- *@
+            <div class="col-lg-7">
+                <div class="row">
+                    @* 1. الصور المصغرة على الجنب (Thumbnails) *@
+                    <div class="col-2 thumbnails-container px-1">
+
+                        @* الصورة الأساسية *@
+                        <div class="thumb-box active" onmouseover="changeMainImage('@Url.Content("~/" + Model.Photo)', this)">
+                            <img src="@Url.Content("~/" + Model.Photo)" class="img-fluid" alt="Main Photo">
+                        </div>
+
+                        @if (Model.ProductImages != null && Model.ProductImages.Any())
+                        {
+                            foreach (var img in Model.ProductImages)
+                            {
+                                @* منع تكرار الصورة الأساسية لو مرفوعة مرتين *@
+                                if (img.Image != Model.Photo)
+                                {
+                                    <div class="thumb-box" onmouseover="changeMainImage('@Url.Content("~/" + img.Image)', this)">
+                                        <img src="@Url.Content("~/" + img.Image)" class="img-fluid" alt="Product Image">
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+
+                    @* 2. الصورة الكبيرة المعروضة *@
+                    <div class="col-10 main-image-container">
+                        <div class="img-wrapper shadow-sm border rounded">
+                            <img id="mainImage" src="@Url.Content("~/" + Model.Photo)" class="img-fluid main-img-display">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* --- الجانب الأيمن: معلومات المنتج --- *@
+            <div class="col-lg-5">
+                <div class="portfolio-info" style="direction:rtl">
+                    <h2 class="fw-bold">@Model.Name</h2>
+                    <div class="price-tag my-3">
+                        <span class="h3 text-danger fw-bold">LE @Model.Price.ToString("N2")</span>
+                    </div>
+                    <p class="description text-muted">@Model.Description</p>
+                    <hr />
+                    <ul class="list-unstyled p-0">
+                        <li class="mb-2"><strong>القسم:</strong> @Model.Cat?.Name</li>
+                        <li class="mb-2"><strong>المورد:</strong> @Model.SupplierName</li>
+                        <li class="mb-2"><strong>التاريخ:</strong> @Model.EntryData</li>
+                    </ul>
+
+                    <a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@Model.Id"
+                       class="btn btn-warning w-100 fw-bold py-3 mt-3 shadow-sm amazon-btn">
+                        <i class="bi bi-cart-plus-fill"></i> إضافة إلى السلة
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@* --- قسم المنتجات المشابهة --- *@
+<section id="related-products" class="portfolio-details section mt-5">
+    <div class="container" data-aos="fade-up">
+        <div class="section-title text-center mb-4">
+            <h2 class="fw-bold">منتجات مشابهة</h2>
+        </div>
+
+        <div class="swiper init-swiper related-swiper position-relative">
+            <script type="application/json" class="swiper-config">
+                {
+                  "loop": false,
+                  "rewind": true,
+                  "speed": 600,
+                  "autoplay": false,
+                  "slidesPerView": "auto",
+                  "watchOverflow": true,
+                  "simulateTouch": true,
+                  "grabCursor": true,
+                  "navigation": {
+                    "nextEl": ".swiper-button-next",
+                    "prevEl": ".swiper-button-prev"
+                  },
+                  "pagination": {
+                    "el": ".swiper-pagination",
+                    "type": "bullets",
+                    "clickable": true
+                  },
+                  "breakpoints": {
+                    "320": { "slidesPerView": 2, "spaceBetween": 20 },
+                    "768": { "slidesPerView": 3, "spaceBetween": 30 },
+                    "1200": { "slidesPerView": 4, "spaceBetween": 40 }
+                  }
+                }
+            </script>
+
+            <div class="swiper-wrapper">
+                @if (ViewBag.RelatedProducts != null)
+                {
+                    foreach (var item in (List<Product>)ViewBag.RelatedProducts)
+                    {
+                        <div class="swiper-slide">
+                            <div class="card h-100 shadow-sm border-0">
+                                <a asp-action="Details" asp-route-id="@item.Id">
+                                    <img src="@Url.Content("~/" + item.Photo)" class="card-img-top"
+                                         style="height: 180px; object-fit: contain; padding: 10px;">
+                                </a>
+                                <div class="card-body text-center">
+                                    <h6 class="card-title text-truncate">@item.Name</h6>
+                                    <p class="text-primary fw-bold">LE @item.Price</p>
+                                    <a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.Id"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-cart-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+
+            @* أزرار التنقل *@
+            <div class="swiper-button-prev custom-nav"></div>
+            <div class="swiper-button-next custom-nav"></div>
+            <div class="swiper-pagination mt-4"></div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* تنسيق الصور الجانبية */
+    .thumbnails-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-height: 450px;
+        overflow-y: auto;
+    }
+
+    .thumb-box {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 2px;
+        cursor: pointer;
+        transition: 0.2s;
+        background: #fff;
+    }
+
+        .thumb-box:hover, .thumb-box.active {
+            border-color: #e77600;
+            box-shadow: 0 0 3px 2px rgba(228, 121, 17, .3);
+        }
+
+    .main-image-container .img-wrapper {
+        background: #fff;
+        padding: 15px;
+        min-height: 450px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .main-img-display {
+        max-height: 430px;
+        object-fit: contain;
+    }
+
+    /* زرار أمازون */
+    .amazon-btn {
+        background-color: #ffd814 !important;
+        border-color: #fcd200 !important;
+        color: #0f1111 !important;
+    }
+
+    /* تنسيق سلايدر المشابهة */
+    .related-swiper {
+        padding: 40px 20px;
+    }
+
+    .custom-nav {
+        color: #007bff !important;
+        background: rgba(255, 255, 255, 0.9);
+        width: 35px !important;
+        height: 35px !important;
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        top: 45% !important;
+    }
+
+        .custom-nav::after {
+            font-size: 14px !important;
+            font-weight: bold;
+        }
+
+    .swiper-button-disabled {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
+
+<script>
+    function changeMainImage(imgUrl, element) {
+        // تغيير الصورة الكبيرة
+        document.getElementById('mainImage').src = imgUrl;
+
+        // تحديث البرواز النشط
+        const thumbs = document.querySelectorAll('.thumb-box');
+        thumbs.forEach(box => box.classList.remove('active'));
+        element.classList.add('active');
+    }
+</script>

@@ -1,0 +1,35 @@
+﻿@model List<Souq.Models.Cart>
+
+<h1>Youssef</h1>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <tr>
+            <th>المنتج</th>
+            <th>السعر</th>
+            <th>الكمية</th>
+            <th>الإجمالي</th>
+        </tr>
+        
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Product.Name</td>
+                <td>@item.Product.Price</td>
+                <td>@item.Qty</td>
+                <td>@(item.Product.Price* item.Qty)</td>
+            </tr>
+            <a asp-action="Remove" asp-route-id="@item.Id" class="btn btn-danger">
+                حذف
+            </a>
+
+        }
+    </table>
+}
+else
+{
+    <h4>🛒 السلة فاضية</h4>
+}
+
